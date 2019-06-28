@@ -3,7 +3,7 @@ Checks the noaa's national weather service for alerts in your reg
 
 ## About
 This skill checks the national oceanic and atmospheric administration's (noaa) national weather service for active weather alerts in your region.
-You may want to go to https://alerts.weather.gov/#us and find your region/zone code and enter that in the skill configuration at home.mycroft.ai
+To get this skill working you must go to https://alerts.weather.gov/#us and find your region/zone ID. Enter that ID in the skills configuration at home.mycroft.ai
 
 ## Examples
 * "Are there weather alerts"
