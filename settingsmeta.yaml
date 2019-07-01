@@ -1,11 +1,25 @@
 name: NOAA alerts
 skillMetadata:
   sections:
-    - name: Options << Name of section
+    - name: Options
       fields:
         - name: zone_id
           type: text
           label: Zone-ID - check https://alerts.weather.gov/#us
           value: ""
           placeholder: ILZ026
-
+        - name: urgency
+          type: select
+          label: Urgency
+          options: "Immediate|Immediate,Expected,Future;Expected|Expected,Future;Future|Future"
+          value: "Immediate"
+        - name: severity
+          type: select
+          label: Severity
+          options: "Extreme|Extreme;Severe|Extreme,Severe;Moderate|Extreme,Severe,Moderate;Minor|Extreme,Severe,Moderate,Minor"
+          value: "Extreme"
+        - name: certainty
+          type: select
+          label: Certainty
+          options: "Observed|Observed;Likely|Observed,Likely;Possible|Observed,Likely,Possible"
+          value: "Observed"
