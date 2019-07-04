@@ -1,6 +1,7 @@
 from mycroft import MycroftSkill, intent_file_handler
 from mycroft.audio import wait_while_speaking
 from noaa_sdk import noaa
+from datetime import datetime, date
 
 class NoaaAlerts(MycroftSkill):
     def __init__(self):
@@ -32,30 +33,34 @@ class NoaaAlerts(MycroftSkill):
             self.speak_dialog('error')
             return
 
-        alerts = self.noaa.alerts(zone=self.zone_id)
+        newalerts = self.noaa.alerts(zone=self.zone_id)
         foundalerts = False
 
-        for alert in alerts['features']:
+        for alert in newalerts['features']:
             ap = alert['properties']
             status = ap['status']
             msgType = ap['messageType']
             urgency = ap['urgency']
             severity = ap['severity']
             certainty = ap['certainty']
-            category = ap['category']
+            #category = ap['category']
 
+            # filter messages: only actual and severity/certainty/urgency according to skill setting
             if status=='Actual' and msgType in ['Alert', 'Update'] and severity in self.severity and certainty in self.certainty and urgency in self.urgency:
-                if not foundalerts:
-                    #self.speak_dialog('alerts.noaa')            
-                    foundalerts = True
-                self.alerts.append(ap)
+                # filter messages: only sent or expiring today
+                if self._get_datetime(ap['sent']).date() == date.today() or ("expires" in ap.keys() and self._get_datetime(ap['expires']).date() >= date.today()):
+                    if not foundalerts:
+                        self.alerts = []
+                        foundalerts = True
+                    self.alerts.append(ap)
         self.log.info("found alerts: {}".format(len(self.alerts)))
 
         if foundalerts:
             self.status = "speaking"
+            self.speak_dialog("alerts.noaa")
             for alert in self.alerts:
                 event = alert["event"]
-                headline = alert['headline']
+                #headline = alert['headline']
                 description = alert['description']
 
                 wait_while_speaking()
@@ -63,10 +68,17 @@ class NoaaAlerts(MycroftSkill):
                     self.speak(event)
                 if self.status == "speaking":
                     self.speak(description)
+        else:
+            self.speak_dialog("noalerts.noaa")
 
     def stop(self):
         self.status = "stopped"
         self.log.info("NOAA stop")
+
+    def _get_datetime(self, dt_string):
+        # "YYYY-MM-DDThh:mm:ssXzh:zm" -> "YYYY-MM-DDThhmmssXzhzm" for easier pattern matching
+        dt_object = datetime.strptime(dt_string.replace(':', ''), "%Y-%m-%dT%H%M%S%z")
+        return dt_object
 
 def create_skill():
     return NoaaAlerts()

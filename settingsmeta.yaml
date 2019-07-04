@@ -3,15 +3,18 @@ skillMetadata:
   sections:
     - name: Options
       fields:
+        - name: label
+          type: label
+          value: "Please check https://alerts.weather.gov/#us for your Zone-ID"
         - name: zone_id
           type: text
-          label: Zone-ID - check https://alerts.weather.gov/#us
+          label: Zone-ID
           value: ""
           placeholder: ILZ026
         - name: urgency
           type: select
           label: Urgency
-          options: "Immediate|Immediate,Expected,Future;Expected|Expected,Future;Future|Future"
+          options: "Immediate|Immediate;Expected|Immediate,Expected;Future|Immediate,Expected,Future"
           value: "Immediate"
         - name: severity
           type: select
