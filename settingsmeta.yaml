@@ -3,26 +3,53 @@ skillMetadata:
   sections:
     - name: Options
       fields:
-        - name: label
+        - name: zone_id_label
           type: label
-          value: "Please check https://alerts.weather.gov/#us for your Zone-ID"
+          label: >
+            <p>
+            Please go to <a href=https://alerts.weather.gov/#us>https://alerts.weather.gov/#us</a>
+            and look up your Zone-ID
+            </p>
+
         - name: zone_id
           type: text
           label: Zone-ID
           value: ""
           placeholder: ILZ026
+
         - name: urgency
           type: select
           label: Urgency
           options: "Immediate|Immediate;Expected|Immediate,Expected;Future|Immediate,Expected,Future"
           value: "Immediate"
+
         - name: severity
           type: select
           label: Severity
           options: "Extreme|Extreme;Severe|Extreme,Severe;Moderate|Extreme,Severe,Moderate;Minor|Extreme,Severe,Moderate,Minor"
           value: "Extreme"
+
         - name: certainty
           type: select
           label: Certainty
           options: "Observed|Observed;Likely|Observed,Likely;Possible|Observed,Likely,Possible"
           value: "Observed"
+
+        - name: auto_alert_label
+          type: label
+          label: >
+            <p>
+            When automatic alert is turned on Mycroft will perform scheduled NOAA-alert updates, e.g. every 10 minutes.
+            In case alerts for extreme or severe conditions with immediate urgency are Observed
+            Mycroft will speak the alerts headline and instructions automatically.
+            </p>
+
+        - label: Automatic alert
+          name: auto_alert
+          type: checkbox
+          value: false
+
+        - label: Update interval (minutes)
+          name: update_interval
+          type: number
+          value: 10
