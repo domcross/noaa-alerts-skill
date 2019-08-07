@@ -1,3 +1,5 @@
+**_NOTE: this skill is deprecated, its functionality is now part of the [Severe Weather Information Skill](https://github.com/domcross/severe-weather-information-skill)_**
+
 # <img src="https://raw.githack.com/FortAwesome/Font-Awesome/master/svgs/solid/robot.svg" card_color="#40DBB0" width="50" height="50" style="vertical-align:bottom"/> NOAA Alerts
 Checks the NOAA's national weather service for alerts in your region.
 
